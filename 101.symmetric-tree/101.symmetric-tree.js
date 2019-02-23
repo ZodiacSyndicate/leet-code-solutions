@@ -48,13 +48,14 @@
  * @return {boolean}
  */
 var isSymmetric = function(root) {
-  return isMirror(root, root)
-}
-
-function isMirror(p, q) {
-  if (!p && !q) return true
-  if (!p || !q) return false
-  return (
-    p.val === q.val && isMirror(p.left, q.right) && isMirror(p.right, q.left)
-  )
+  const queue = [root, root]
+  while (queue.length) {
+    const t1 = queue.pop()
+    const t2 = queue.pop()
+    if (!t1 && !t2) continue
+    if (!t1 || !t2) return false
+    if (t1.val !== t2.val) return false
+    queue.push(t1.left, t2.right, t1.right, t2.left)
+  }
+  return true
 }
