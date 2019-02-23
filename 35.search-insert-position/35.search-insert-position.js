@@ -46,15 +46,13 @@
  * @return {number}
  */
 var searchInsert = function(nums, target) {
-  if (nums[0] > target) return 0
-  if (nums[nums.length - 1] < target) return nums.length
   let l = 0
-  let r = nums.length - 1
-  while (l <= r) {
+  let r = nums.length
+  while (l < r) {
     const mid = Math.floor(l + (r - l) / 2)
     if (nums[mid] === target) return mid
     if (nums[mid] > target) {
-      r = mid - 1
+      r = mid
     }
     if (nums[mid] < target) {
       l = mid + 1
