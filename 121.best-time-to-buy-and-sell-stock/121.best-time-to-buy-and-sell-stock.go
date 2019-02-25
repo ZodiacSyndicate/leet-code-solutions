@@ -1,5 +1,5 @@
 /*
- * @lc app=leetcode.cn id=121 lang=javascript
+ * @lc app=leetcode.cn id=121 lang=golang
  *
  * [121] 买卖股票的最佳时机
  *
@@ -33,17 +33,14 @@
  *
  *
  */
-/**
- * @param {number[]} prices
- * @return {number}
- */
-var maxProfit = function(prices) {
-  if (!prices.length) return false
-  let cur = 0
-  let res = 0
-  for (let i = 0; i < prices.length - 1; i++) {
-    cur = Math.max(cur + prices[i + 1] - prices[i], 0)
-    res = Math.max(cur, res)
-  }
-  return res
+import "math"
+
+func maxProfit(prices []int) int {
+	var cur float64 = 0
+	var res float64 = 0
+	for i := 0; i < len(prices)-1; i++ {
+		cur = math.Max(cur+float64(prices[i+1]-prices[i]), 0)
+		res = math.Max(cur, res)
+	}
+	return int(res)
 }
