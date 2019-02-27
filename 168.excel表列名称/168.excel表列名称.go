@@ -45,17 +45,19 @@
  *
  */
 func convertToTitle(n int) string {
-	arr := []rune{}
+	arr := []rune{'Z'}
 	for i := 65; i <= 90; i++ {
 		arr = append(arr, rune(i))
 	}
-	arr = append(rune(0), arr...)
-	res := rune("")
+	res := ""
 	for n != 0 {
 		num := n % 26
-		res += arr[num]
+		res = string(arr[num]) + res
 		n = (n - num) / 26
+		if num == 0 {
+			n--
+		}
 	}
-	return int(res)
+	return res
 }
 
