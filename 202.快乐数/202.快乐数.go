@@ -1,5 +1,5 @@
 /*
- * @lc app=leetcode.cn id=202 lang=javascript
+ * @lc app=leetcode.cn id=202 lang=golang
  *
  * [202] 快乐数
  *
@@ -28,21 +28,20 @@
  *
  *
  */
-/**
- * @param {number} n
- * @return {boolean}
- */
-var isHappy = function(n) {
-  const map = {}
-  while (true) {
-    if (n === 1) return true
-    if (map[n]) return false
-    map[n] = 1
-    let cur = 0
-    while (n) {
-      cur += (n % 10) ** 2
-      n = (n / 10) | 0
-    }
-    n = cur
-  }
+func isHappy(n int) bool {
+	m := map[int]int{}
+	for n != 1 {
+		if _, ok := m[n]; ok {
+			return false
+		}
+		m[n] = 1
+		cur := 0
+		for n != 0 {
+			cur += (n % 10) * (n % 10)
+			n /= 10
+		}
+		n = cur
+	}
+	return true
 }
+
