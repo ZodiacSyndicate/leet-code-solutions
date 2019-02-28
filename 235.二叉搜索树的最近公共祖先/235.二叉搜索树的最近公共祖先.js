@@ -60,14 +60,8 @@
  */
 var lowestCommonAncestor = function(root, p, q) {
   while (root) {
-    if (
-      (root.val > p.val && root.val < q.val) ||
-      (root.val < p.val && root.val > q.val) ||
-      root === p ||
-      root === q
-    )
-      return root
     if (root.val < p.val && root.val < q.val) root = root.right
     if (root.val > p.val && root.val > q.val) root = root.left
+    else return root
   }
 }
