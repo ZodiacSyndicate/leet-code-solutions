@@ -40,57 +40,23 @@
 var addTwoNumbers = function(l1, l2) {
   const head = new ListNode(null)
   let node = head
-  let carry = false
-  while (l1 && l2) {
-    let val
-    if (carry) {
-      val = l1.val + l2.val + 1
-      if (val < 10) {
-        carry = false
-      }
-    } else {
-      val = l1.val + l2.val
-      if (val > 9) {
-        carry = true
-      }
-    }
+  let carry = 0
+  while (l1 || l2) {
+    const n1 = l1 ? l1.val : 0
+    const n2 = l2 ? l2.val : 0
+    let val = carry + n1 + n2
+    carry = ~~(val / 10)
     val %= 10
     node.next = new ListNode(val)
+    if (l1) {
+      l1 = l1.next
+    }
+    if (l2) {
+      l2 = l2.next
+    }
     node = node.next
-    l1 = l1.next
-    l2 = l2.next
   }
-  if (l1) {
-    while (l1) {
-      if (carry) {
-        if (l1.val + 1 < 10) {
-          carry = false
-        }
-        node.next = new ListNode((l1.val + 1) % 10)
-        node = node.next
-        l1 = l1.next
-      } else {
-        node.next = l1
-        break
-      }
-    }
-  }
-  if (l2) {
-    while (l2) {
-      if (carry) {
-        if (l2.val + 1 < 10) {
-          carry = false
-        }
-        node.next = new ListNode((l2.val + 1) % 10)
-        node = node.next
-        l2 = l2.next
-      } else {
-        node.next = l2
-        break
-      }
-    }
-  }
-  if (carry && !l1 && !l2) {
+  if (carry) {
     node.next = new ListNode(1)
   }
   return head.next

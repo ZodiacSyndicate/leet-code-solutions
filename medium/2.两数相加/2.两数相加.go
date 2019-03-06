@@ -37,59 +37,27 @@ func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
 	head.Val = 0
 	head.Next = nil
 	node := head
-	carry := false
-	for l1 != nil && l2 != nil {
-		var val int
-		if carry {
-			val = l1.Val + l2.Val + 1
-			if val < 10 {
-				carry = false
-			}
-		} else {
-			val = l1.Val + l2.Val
-			if val > 9 {
-				carry = true
-			}
-		}
-		val %= 10
-		node.Next = new(ListNode)
-		node.Next.Val = val
-		node.Next.Next = nil
-		node = node.Next
-		l1 = l1.Next
-		l2 = l2.Next
-	}
-	for l1 != nil {
-		if carry {
-			if l1.Val+1 < 10 {
-				carry = false
-			}
-			node.Next = new(ListNode)
-			node.Next.Val = (l1.Val + 1) % 10
-			node.Next.Next = nil
-			node = node.Next
+	carry := 0
+	for l1 != nil || l2 != nil {
+		n1, n2 := 0, 0
+		if l1 != nil {
+			n1 = l1.Val
 			l1 = l1.Next
-		} else {
-			node.Next = l1
-			break
 		}
-	}
-	for l2 != nil {
-		if carry {
-			if l2.Val+1 < 10 {
-				carry = false
-			}
-			node.Next = new(ListNode)
-			node.Next.Val = (l2.Val + 1) % 10
-			node.Next.Next = nil
-			node = node.Next
+		if l2 != nil {
+			n2 = l2.Val
 			l2 = l2.Next
-		} else {
-			node.Next = l2
-			break
 		}
+		val := carry + n1 + n2
+		carry = val / 10
+		val %= 10
+		listNode := new(ListNode)
+		listNode.Val = val
+		node.Next = listNode
+		node = node.Next
 	}
-	if carry && l1 == nil && l2 == nil {
+
+	if carry != 0 {
 		node.Next = new(ListNode)
 		node.Next.Val = 1
 		node.Next.Next = nil

@@ -1,5 +1,5 @@
 /*
- * @lc app=leetcode.cn id=3 lang=javascript
+ * @lc app=leetcode.cn id=3 lang=golang
  *
  * [3] 无重复字符的最长子串
  *
@@ -36,20 +36,18 @@
  *
  *
  */
-/**
- * @param {string} s
- * @return {number}
- */
-var lengthOfLongestSubstring = function(s) {
-  const map = new Map()
-  let len = s.length
-  let ans = 0
-  for (let i = 0, j = 0; j < len; j++) {
-    if (map.has(s[j])) {
-      i = Math.max(i, map.get(s[j]))
-    }
-    ans = Math.max(ans, j - i + 1)
-    map.set(s[j], j + 1)
-  }
-  return ans
+import "math"
+
+func lengthOfLongestSubstring(s string) int {
+	m := map[byte]int{}
+	ans := 0
+	for i, j := 0, 0; j < len(s); j++ {
+		if str, ok := m[s[j]]; ok {
+			i = int(math.Max(float64(i), float64(str)))
+		}
+		ans = int(math.Max(float64(ans), float64(j-i+1)))
+		m[s[j]] = j + 1
+	}
+	return ans
 }
+

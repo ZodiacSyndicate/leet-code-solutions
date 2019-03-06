@@ -36,44 +36,20 @@ class Solution:
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
         head = ListNode(0)
         node = head
-        carry = False
-        while l1 and l2:
-            val = 0
-            if carry:
-                val = l1.val + l2.val + 1
-                if val < 10:
-                    carry = False
-            else:
-                val = l1.val + l2.val
-                if val > 9:
-                    carry = True
+        carry = 0
+        while l1 or l2:
+            n1, n2 = 0, 0
+            if l1:
+                n1 = l1.val
+                l1 = l1.next
+            if l2:
+                n2 = l2.val
+                l2 = l2.next
+            val = carry + n1 + n2
+            carry = val // 10
             val %= 10
             node.next = ListNode(val)
             node = node.next
-            l1 = l1.next
-            l2 = l2.next
-        if l1:
-            while l1:
-                if carry:
-                    if l1.val + 1 < 10:
-                        carry = False
-                    node.next = ListNode((l1.val + 1) % 10)
-                    node = node.next
-                    l1 = l1.next
-                else:
-                    node.next = l1
-                    break
-        if l2:
-            while l2:
-                if carry:
-                    if l2.val + 1 < 10:
-                        carry = False
-                    node.next = ListNode((l2.val + 1) % 10)
-                    node = node.next
-                    l2 = l2.next
-                else:
-                    node.next = l2
-                    break
-        if carry and l1 == None and l2 == None:
+        if carry:
             node.next = ListNode(1)
         return head.next
