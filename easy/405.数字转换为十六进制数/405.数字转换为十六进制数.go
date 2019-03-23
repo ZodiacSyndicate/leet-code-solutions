@@ -48,12 +48,12 @@ func toHex(num int) string {
 	if num == 0 {
 		return "0"
 	}
-	ans := ""
+	ans := []byte{}
 	str := "0123456789abcdef"
 	for num != 0 && len(ans) < 8 {
-		ans = string(str[num&0xf]) + ans
+		ans = append([]byte{str[num&0xf]}, ans...)
 		num >>= 4
 	}
-	return ans
+	return string(ans)
 }
 
