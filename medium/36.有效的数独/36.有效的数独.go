@@ -71,56 +71,36 @@
  *
  */
 func isValidSudoku(board [][]byte) bool {
-	return isValidColumn(board) && isValidRow(board) && isValidBlock(board)
-}
+	rows := []map[byte]int{{}, {}, {}, {}, {}, {}, {}, {}, {}}
+	columns := []map[byte]int{{}, {}, {}, {}, {}, {}, {}, {}, {}}
+	blocks := []map[byte]int{{}, {}, {}, {}, {}, {}, {}, {}, {}}
 
-func isValidColumn(board [][]byte) bool {
-	for y := 0; y < 9; y++ {
-		m := map[byte]int{}
-		for _, n := range board[y] {
-			if n != '.' {
-				if _, ok := m[n]; ok {
-					return false
+	for i := 0; i < 9; i++ {
+		for j := 0; j < 9; j++ {
+			num := board[i][j]
+			if num != '.' {
+				blockIndex := (i/3)*3 + j/3
+
+				if _, ok := rows[i][num]; ok {
+					rows[i][num]++
 				} else {
-					m[n] = 1
+					rows[i][num] = 1
 				}
-			}
-		}
-	}
-	return true
-}
 
-func isValidRow(board [][]byte) bool {
-	for x := 0; x < 9; x++ {
-		m := map[byte]int{}
-		for y := 0; y < 9; y++ {
-			n := board[y][x]
-			if n != '.' {
-				if _, ok := m[n]; ok {
-					return false
+				if _, ok := columns[j][num]; ok {
+					columns[j][num]++
 				} else {
-					m[n] = 1
+					columns[j][num] = 1
 				}
-			}
-		}
-	}
-	return true
-}
 
-func isValidBlock(board [][]byte) bool {
-	for i := 0; i < 3; i++ {
-		for j := 0; j < 3; j++ {
-			m := map[byte]int{}
-			for y := 3 * i; y < 3*(i+1); y++ {
-				for x := 3 * j; x < 3*(j+1); x++ {
-					n := board[y][x]
-					if n != '.' {
-						if _, ok := m[n]; ok {
-							return false
-						} else {
-							m[n] = 1
-						}
-					}
+				if _, ok := blocks[blockIndex][num]; ok {
+					blocks[blockIndex][num]++
+				} else {
+					blocks[blockIndex][num] = 1
+				}
+
+				if rows[i][num] > 1 || columns[j][num] > 1 || blocks[blockIndex][num] > 1 {
+					return false
 				}
 			}
 		}

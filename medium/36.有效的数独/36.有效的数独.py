@@ -74,41 +74,22 @@
 
 class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
-        return self.isValidBlock(board) and self.isValidColumn(board) and self.isValidRow(board)
+        rows = [{} for i in range(9)]
+        columns = [{} for i in range(9)]
+        blocks = [{} for i in range(9)]
 
-    def isValidColumn(self, board):
-        for y in range(0, 9):
-            m = {}
-            for n in board[y]:
-                if n != '.':
-                    if n in m:
+        for i in range(9):
+            for j in range(9):
+                num = board[i][j]
+                if num != '.':
+                    num = int(num)
+                    blockIndex = (i // 3) * 3 + j // 3
+
+                    rows[i][num] = rows[i].get(num, 0) + 1
+                    columns[j][num] = columns[j].get(num, 0) + 1
+                    blocks[blockIndex][num] = blocks[blockIndex].get(
+                        num, 0) + 1
+
+                    if rows[i][num] > 1 or columns[j][num] > 1 or blocks[blockIndex][num] > 1:
                         return False
-                    else:
-                        m[n] = 1
-        return True
-
-    def isValidRow(self, board):
-        for x in range(0, 9):
-            m = {}
-            for y in range(0, 9):
-                n = board[y][x]
-                if n != '.':
-                    if n in m:
-                        return False
-                    else:
-                        m[n] = 1
-        return True
-
-    def isValidBlock(self, board):
-        for j in range(0, 3):
-            for i in range(0, 3):
-                m = {}
-                for y in range(3 * j, 3 * (j + 1)):
-                    for x in range(3 * i, 3 * (i + 1)):
-                        n = board[y][x]
-                        if n != '.':
-                            if n in m:
-                                return False
-                            else:
-                                m[n] = 1
         return True

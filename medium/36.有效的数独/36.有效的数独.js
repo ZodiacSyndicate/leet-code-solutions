@@ -75,48 +75,26 @@
  * @return {boolean}
  */
 var isValidSudoku = function(board) {
-  return isValidColumn(board) && isValidRow(board) && isValidBlock(board)
-}
+  const rows = Array.from({ length: 9 }).map(_ => ({}))
+  const columns = Array.from({ length: 9 }).map(_ => ({}))
+  const blocks = Array.from({ length: 9 }).map(_ => ({}))
 
-function isValidColumn(board) {
-  for (let y = 0; y < 9; y++) {
-    const map = {}
-    for (let n of board[y]) {
-      if (n !== '.') {
-        if (n in map) return false
-        else map[n] = 1
-      }
-    }
-  }
-  return true
-}
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      let num = board[i][j]
+      if (num !== '.') {
+        const blockIndex = Math.floor(i / 3) * 3 + Math.floor(j / 3)
 
-function isValidRow(board) {
-  for (let x = 0; x < 9; x++) {
-    const map = {}
-    for (let y = 0; y < 9; y++) {
-      const n = board[y][x]
-      if (n !== '.') {
-        if (n in map) return false
-        else map[n] = 1
-      }
-    }
-  }
-  return true
-}
+        rows[i][num] = (rows[i][num] || 0) + 1
+        columns[j][num] = (columns[j][num] || 0) + 1
+        blocks[blockIndex][num] = (blocks[blockIndex][num] || 0) + 1
 
-function isValidBlock(board) {
-  for (let j = 0; j < 3; j++) {
-    for (let i = 0; i < 3; i++) {
-      const map = {}
-      for (let y = 3 * j; y < 3 * (j + 1); y++) {
-        for (let x = 3 * i; x < 3 * (i + 1); x++) {
-          const n = board[y][x]
-          if (n !== '.') {
-            if (n in map) return false
-            else map[n] = 1
-          }
-        }
+        if (
+          rows[i][num] > 1 ||
+          columns[j][num] > 1 ||
+          blocks[blockIndex][num] > 1
+        )
+          return false
       }
     }
   }
