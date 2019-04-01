@@ -61,22 +61,21 @@
  * @return {void} Do not return anything, modify matrix in-place instead.
  */
 var rotate = function(matrix) {
-  let n = matrix.length - 1
-  let x = 0
-  let y = 0
-  while (n >= 0) {
-    for (let i = x; i < n; i++) {
-      const topLeft = matrix[y][i]
-      const topRight = matrix[i][n - i]
-      const bottomLeft = matrix[n - i][0]
-      const bottomRight = matrix[n - i][i]
-      matrix[y][i] = bottomLeft
-      matrix[y][n - i] = topLeft
-      matrix[n - y][i] = bottomRight
-      matrix[n - y][n - i] = topRight
+  let abs1 = 0
+  let abs2 = matrix.length - 1
+  while (abs1 <= abs2) {
+    let p1 = abs1
+    let p2 = abs2
+    while (p1 !== abs2) {
+      const temp = matrix[abs1][p1]
+      matrix[abs1][p1] = matrix[p2][abs1]
+      matrix[p2][abs1] = matrix[abs2][p2]
+      matrix[abs2][p2] = matrix[p1][abs2]
+      matrix[p1][abs2] = temp
+      p1++
+      p2--
     }
-    x++
-    y++
-    n -= 2
+    abs1++
+    abs2--
   }
 }
