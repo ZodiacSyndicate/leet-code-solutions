@@ -39,29 +39,6 @@
  * @param {string} num2
  * @return {string}
  */
-var addStrings = function(num1, num2) {
-  let l1 = num1.length - 1
-  let l2 = num2.length - 1
-  let carry = 0
-  let ans = ''
-  while (l1 >= 0 || l2 >= 0) {
-    const n1 = l1 >= 0 ? Number(num1[l1]) : 0
-    const n2 = l2 >= 0 ? Number(num2[l2]) : 0
-    let val = carry + n1 + n2
-    carry = ~~(val / 10)
-    val %= 10
-    ans = `${val}${ans}`
-    l1--
-    l2--
-  }
-  return carry ? `${carry}${ans}` : ans
-}
-
-/**
- * @param {string} num1
- * @param {string} num2
- * @return {string}
- */
 var multiply = function(num1, num2) {
   const n1 = num1.length - 1
   const n2 = num2.length - 1
