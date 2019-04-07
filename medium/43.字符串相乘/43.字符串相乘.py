@@ -35,5 +35,22 @@
 #
 class Solution:
     def multiply(self, num1: str, num2: str) -> str:
+        n1, n2 = len(num1) - 1, len(num2) - 1
+        if n1 < 0 or n2 < 0:
+            return ''
+        mul = [0] * (n1 + n2 + 2)
+        for i in range(n1, -1, -1):
+            for j in range(n2, -1, -1):
+                bitMul = (ord(num1[i]) - ord('0')) * (ord(num2[j]) - ord('0'))
+                bitMul += mul[i + j + 1]
+                mul[i + j] += bitMul // 10
+                mul[i + j + 1] = bitMul % 10
         
+        i = 0
+        result = ''
+        while i < len(mul) - 1 and mul[i] == 0:
+            i += 1
+        for n in mul[i:]:
+            result += str(n)
+        return result
 
