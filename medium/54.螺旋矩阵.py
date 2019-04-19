@@ -44,7 +44,7 @@ class Solution:
         res = []
         x, y, i, flag = 0, 0, 0, False
         while True:
-            if x < len(matrix) and y < len(matrix[x]):
+            if x < len(matrix) and y < len(matrix[x]) and matrix[x][y] != None:
                 flag = False
                 res.append(matrix[x][y])
                 matrix[x][y] = None
