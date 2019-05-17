@@ -26,7 +26,6 @@ var deleteDuplicates = function(head) {
       }
       prev.next = node.next
       node = node.next
-      continue
     } else {
       prev = node
       node = node.next
