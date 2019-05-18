@@ -28,18 +28,21 @@
 var restoreIpAddresses = function(s) {
   const res = []
   function backtrack(str, temp = [], k = 0) {
-    if (temp.length > 4) return
     if (k === 3) {
-      if (Number(str) <= 255 && str.length <= 3) {
+      if (str.startsWith('0') && str.length > 1) return
+      if (Number(str) <= 255 && str.length <= 3 && str.length > 0) {
         temp.push(str)
         res.push(temp.join('.'))
       }
       return
     }
     for (let i = 1; i <= 3; i++) {
-      if (Number(str.slice(0, i)) > 255) return
-      temp.push(str.slice(0, i))
-      backtrack(str.slice(i), [...temp], k + 1)
+      const a = str.slice(0, i)
+      if (Number(a) > 255) return
+      if (a.startsWith('0') && a.length > 1) return
+      const t = temp.slice()
+      t.push(a)
+      backtrack(str.slice(i), t, k + 1)
     }
   }
   backtrack(s, [], 0)
