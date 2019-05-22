@@ -65,21 +65,23 @@
  */
 var connect = function(root) {
   if (!root || (!root.left && !root.right)) return root
-  if (root.left) {
-    root.left.next = root.right
-  }
-  if (root.next) {
-    let node = root
-    while (node.next.next && !node.next.left && !node.next.right) {
-      node = node.next
-    }
-    if (root.right) {
-      root.right.next = node.next.left || node.next.right
+  let temp = root
+  let nextNode = null
+  while (temp.next) {
+    if (temp.next.left) {
+      nextNode = temp.next.left
+      break
+    } else if (temp.next.right) {
+      nextNode = temp.next.right
+      break
     } else {
-      root.left.next = node.next.left || node.next.right
+      temp = temp.next
     }
   }
-  if (root.left) connect(root.left)
-  if (root.right) connect(root.right)
+  if (root.right) root.right.next = nextNode
+  if (root.left && root.right) root.left.next = root.right
+  if (root.left && !root.right) root.left.next = nextNode
+  connect(root.right)
+  connect(root.left)
   return root
 }
