@@ -42,12 +42,14 @@ var sortList = function(head) {
   if (!head || !head.next) return head
   let slow = head
   let fast = head
+  let brek = head
   while (fast && fast.next) {
+    brek = slow
     slow = slow.next
     fast = fast.next.next
   }
-  const right = sortList(slow.next)
-  slow.next = null
+  brek.next = null
+  const right = sortList(slow)
   const left = sortList(head)
   return merge(left, right)
 }
