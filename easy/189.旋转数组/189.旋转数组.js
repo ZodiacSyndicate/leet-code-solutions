@@ -45,6 +45,28 @@
  * @return {void} Do not return anything, modify nums in-place instead.
  */
 var rotate = function(nums, k) {
-  k = k % nums.length
-  nums.unshift(...nums.splice(nums.length - k, k))
+  rotateImpl(nums, nums.length - (k % nums.length))
+}
+
+function rotateImpl(nums, k) {
+  const n = nums.length
+  for (let i = 0; i < gcd(n, n - k); i++) {
+    const t = nums[i]
+    let j = i
+    while (true) {
+      let l = j + k
+      if (l >= n) {
+        l -= n
+      }
+      if (l === i) break
+      nums[j] = nums[l]
+      j = l
+    }
+    nums[j] = t
+  }
+}
+
+function gcd(a, b) {
+  if (b) while ((a %= b) && (b %= a)) {}
+  return a + b
 }

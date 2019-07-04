@@ -35,42 +35,20 @@
  * }
  */
 func reorderList(head *ListNode) {
-	if head == nil || head.Next == nil {
-		return
-	}
-	p1 := head
-	p2 := head
-
-	for p2.Next != nil && p2.Next.Next != nil {
-		p1 = p1.Next
-		p2 = p2.Next.Next
+	p := head
+	l := []*ListNode{}
+	for p != nil {
+		l = append(l, p)
+		p = p.Next
 	}
 
-	p2 = p1.Next
-	p1.Next = nil
-	p1 = head
-
-	head2 := p2
-	var next2 *ListNode
-	for p2.Next != nil {
-		next2 = p2.Next
-		p2.Next = next2.Next
-		next2.Next = head2
-		head2 = next2
+	n := len(l)
+	for i := 0; i < n/2; i++ {
+		l[i].Next = l[n-i-1]
+		l[n-i-1].Next = l[i+1]
 	}
-	p2 = next2
-
-	var next1 *ListNode
-
-	for p2 != nil {
-		next1 = p1.Next
-		next2 = p2.Next
-
-		p1.Next = p2
-		p2.Next = next1
-
-		p1 = next1
-		p2 = next2
+	if n > 0 {
+		l[n/2].Next = nil
 	}
 }
 
