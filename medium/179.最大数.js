@@ -34,7 +34,7 @@
  */
 var largestNumber = function(nums) {
   const res = nums
-    .sort((a, b) => Number(`${a}${b}`) < Number(`${b}${a}`))
+    .sort((a, b) => Number(`${b}${a}`) - Number(`${a}${b}`))
     .join('')
   return res[0] === '0' ? '0' : res
 }
