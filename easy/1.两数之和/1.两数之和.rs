@@ -1,5 +1,5 @@
 /*
- * @lc app=leetcode.cn id=1 lang=golang
+ * @lc app=leetcode.cn id=1 lang=rust
  *
  * [1] 两数之和
  *
@@ -24,15 +24,19 @@
  *
  *
  */
-func twoSum(nums []int, target int) []int {
-	m := map[int]int{}
-	var res []int
-	for i, n := range nums {
-		if _, ok := m[target-n]; ok {
-			res = []int{m[target-n], i}
-		} else {
-			m[n] = i
+use std::collections::HashMap;
+impl Solution {
+	fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
+		let mut map: HashMap<i32, i32> = HashMap::new();
+		let mut res: Vec<i32> = vec![];
+		for (i, &n) in nums.iter().enumerate() {
+			let t = target - n;
+			if map.get(&t).is_some() {
+				return vec![*map.get(&t).unwrap(), i as i32];
+			} else {
+				map.insert(n, i as i32);
+			}
 		}
+		vec![]
 	}
-	return res
 }
